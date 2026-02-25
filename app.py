@@ -451,57 +451,60 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 拋棄 :has 語法，改用最暴力的全局覆蓋 (保證舊手機也看得懂！)
+    # 💡 老弟吞鍵盤賠罪版：強制數學比例 25%，連字體都鎖死！
     st.markdown("""
     <style>
-        /* 1. 強制所有橫向容器不准換行，且不能超過螢幕寬度 */
+        /* 1. 整個橫排絕對 100%，不准超過 */
         div[data-testid="stHorizontalBlock"] {
             display: flex !important;
-            flex-direction: row !important;
             flex-wrap: nowrap !important;
-            gap: 2px !important; /* 按鈕之間的縫隙縮到最小 */
             width: 100% !important;
-            overflow: hidden !important; /* 超出的部分直接卡掉，不准擠出螢幕 */
+            gap: 2px !important;
         }
         
-        /* 2. 強制每個柱子(Column)自動縮小，最小寬度設為 0 */
+        /* 2. 每根柱子嚴格限制只能佔 25% 的空間 (扣掉縫隙) */
         div[data-testid="column"] {
-            flex: 1 1 0% !important;
-            width: auto !important;
+            flex: 0 0 calc(25% - 2px) !important;
             min-width: 0px !important;
-            padding: 0 1px !important; 
+            padding: 0px !important; 
         }
         
-        /* 3. 把最後一排的「結算」按鈕拉長 */
+        /* 3. 最後一排的第三個按鈕(結算)，給它 50% 的空間 */
         div[data-testid="stHorizontalBlock"]:last-of-type div[data-testid="column"]:nth-child(3) {
-            flex: 2 1 0% !important;
+            flex: 0 0 calc(50% - 2px) !important;
         }
         
-        /* 4. 🔥 按鈕極致縮小術 */
+        /* 4. 按鈕本體強制填滿柱子 */
         div[data-testid="stHorizontalBlock"] button {
             width: 100% !important;
             min-width: 0px !important;
-            height: 45px !important;      /* 把高度縮小 */
-            font-size: 15px !important;   /* 字體縮小，避免撐破按鈕 */
-            font-weight: bold !important;
-            padding: 0 !important;
-            margin: 0 !important;
+            height: 50px !important;
+            padding: 0px !important;
         }
         
-        /* 5. 螢幕也稍微縮小一點 */
+        /* 5. 🎯 抓到兇手了！強制縮小按鈕裡面的字，絕對不准撐開按鈕 */
+        div[data-testid="stHorizontalBlock"] button p {
+            font-size: 16px !important; /* 字體強制縮小 */
+            font-weight: 900 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            margin: 0 !important;
+            line-height: 50px !important;
+        }
+        
+        /* 螢幕優化 */
         .calc-screen {
             background-color: #f0f2f6;
             color: #111111;
-            padding: 8px 10px;
+            padding: 10px;
             border-radius: 8px;
             text-align: right;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 22px !important;
+            font-size: 24px !important;
             font-weight: 900;
-            min-height: 50px;
+            min-height: 55px;
             margin-bottom: 10px;
             border: 2px solid #b3b3b3;
-            word-wrap: break-word;
         }
     </style>
     """, unsafe_allow_html=True)
@@ -1217,4 +1220,5 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
