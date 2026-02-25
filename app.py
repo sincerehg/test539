@@ -451,16 +451,16 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 雙棲最終型態：手機完美防護 ＋ 電腦版窄縫超寬按鈕！
+    # 💡 終極無邊際版：極致窄縫、按鈕無限拉寬！
     st.markdown("""
     <style>
         /* =========================================
-           📱 手機版基礎設定 (絕對不動它，維持完美現狀)
+           🌍 全局共用：極致縮小縫隙，讓按鈕變寬！
            ========================================= */
         div[data-testid="stHorizontalBlock"] {
             display: grid !important;
             grid-template-columns: repeat(4, 1fr) !important;
-            gap: 6px !important; 
+            gap: 2px !important; /* 🔥 核心大絕：間距壓縮到極限的 2px！空間全部還給按鈕！ */
             width: 100% !important;
         }
         
@@ -471,18 +471,18 @@ elif st.session_state.page == "計算機":
         div[data-testid="column"] {
             width: 100% !important;
             min-width: 0px !important;
-            padding: 0 !important;
+            padding: 0 !important; /* 🔥 殺死所有隱形的左右留白 */
         }
         
         div[data-testid="stHorizontalBlock"] button {
-            width: 100% !important;
-            height: 60px !important; 
+            width: 100% !important; /* 🔥 強迫按鈕 100% 填滿變寬的格子 */
+            height: 65px !important; 
             padding: 0 !important;
             border-radius: 8px !important;
         }
         
         div[data-testid="stHorizontalBlock"] button p {
-            font-size: 20px !important;
+            font-size: 22px !important;
             font-weight: 900 !important;
             margin: 0 !important;
             white-space: nowrap !important;
@@ -496,47 +496,36 @@ elif st.session_state.page == "計算機":
             border-radius: 8px;
             text-align: right;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 28px !important;
+            font-size: 32px !important;
             font-weight: 900;
-            min-height: 60px;
+            min-height: 70px;
             margin-bottom: 10px;
             border: 2px solid #b3b3b3;
         }
 
         /* =========================================
-           💻 電腦版專屬：間距極致縮小 ＝ 按鈕極致變寬！
+           💻 電腦版專屬：解放封印，讓按鈕霸道變寬！
            ========================================= */
         @media (min-width: 768px) {
-            /* 控制計算機的總寬度，800px 已經非常寬廣 */
             .block-container, 
-            [data-testid="stMainBlockContainer"], 
-            [data-testid="stAppViewBlockContainer"] {
-                max-width: 800px !important; 
-                padding-left: 1rem !important;
-                padding-right: 1rem !important;
+            [data-testid="stMainBlockContainer"] {
+                max-width: 1200px !important; /* 🔥 解除封印！讓電腦版螢幕可以展開到 1200px，按鈕絕對超級寬！ */
+                padding-left: 2rem !important;
+                padding-right: 2rem !important;
             }
             
-            /* 🔥 核心要求：把間距縮到極小！ */
-            div[data-testid="stHorizontalBlock"] {
-                gap: 4px !important; /* 👈 從 12px 暴力縮減到 4px！縫隙變小，按鈕本體直接變寬！ */
-            }
-            
-            /* 電腦版按鈕大小 */
             div[data-testid="stHorizontalBlock"] button {
-                height: 80px !important; 
+                height: 90px !important; /* 因為按鈕變超寬，高度也要拉高比例才霸氣 */
                 border-radius: 12px !important; 
             }
             
-            /* 電腦版按鈕字體放大 */
             div[data-testid="stHorizontalBlock"] button p {
-                font-size: 30px !important; 
+                font-size: 36px !important; /* 字體也跟著霸氣升級 */
             }
             
-            /* 電腦版液晶螢幕同步放大 */
             .calc-screen {
-                font-size: 40px !important; 
-                min-height: 80px;
-                padding: 15px 20px;
+                font-size: 48px !important; 
+                min-height: 90px;
                 margin-bottom: 15px;
             }
         }
@@ -1255,6 +1244,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
