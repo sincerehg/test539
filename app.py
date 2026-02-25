@@ -451,66 +451,70 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 老弟特製：計算機專屬「防變形+自動縮放」CSS
+    # 💡 拋棄 :has 語法，改用最暴力的全局覆蓋 (保證舊手機也看得懂！)
     st.markdown("""
     <style>
-        /* 1. 滿版寬度，強制不換行，縮小按鈕間距 */
+        /* 1. 強制所有橫向容器不准換行，且不能超過螢幕寬度 */
         div[data-testid="stHorizontalBlock"] {
+            display: flex !important;
+            flex-direction: row !important;
             flex-wrap: nowrap !important;
-            gap: 3px !important; 
+            gap: 2px !important; /* 按鈕之間的縫隙縮到最小 */
             width: 100% !important;
+            overflow: hidden !important; /* 超出的部分直接卡掉，不准擠出螢幕 */
         }
         
-        /* 2. 每個按鈕的格子「絕對平均分配」，且不准撐開螢幕 (min-width: 0 才是重點) */
+        /* 2. 強制每個柱子(Column)自動縮小，最小寬度設為 0 */
         div[data-testid="column"] {
-            min-width: 0px !important; 
-            flex: 1 1 0% !important; 
+            flex: 1 1 0% !important;
+            width: auto !important;
+            min-width: 0px !important;
+            padding: 0 1px !important; 
         }
         
-        /* 3. 針對最後一排 [3星, 4星, 結算] 調整比例 (1:1:2) */
+        /* 3. 把最後一排的「結算」按鈕拉長 */
         div[data-testid="stHorizontalBlock"]:last-of-type div[data-testid="column"]:nth-child(3) {
             flex: 2 1 0% !important;
         }
         
-        /* 4. 按鈕自適應大小，強制鎖在格子內 */
+        /* 4. 🔥 按鈕極致縮小術 */
         div[data-testid="stHorizontalBlock"] button {
             width: 100% !important;
-            height: 55px !important;
-            font-size: 18px !important; /* 字體稍微調小一點，避免擠爆 */
-            font-weight: 900 !important;
-            padding: 0px !important;
-            border-radius: 8px !important;
+            min-width: 0px !important;
+            height: 45px !important;      /* 把高度縮小 */
+            font-size: 15px !important;   /* 字體縮小，避免撐破按鈕 */
+            font-weight: bold !important;
+            padding: 0 !important;
+            margin: 0 !important;
         }
         
-        /* 5. 液晶螢幕再優化 (避免輸入太長撐爆螢幕) */
+        /* 5. 螢幕也稍微縮小一點 */
         .calc-screen {
             background-color: #f0f2f6;
             color: #111111;
-            padding: 10px 15px;
+            padding: 8px 10px;
             border-radius: 8px;
             text-align: right;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 26px !important;
+            font-size: 22px !important;
             font-weight: 900;
-            min-height: 60px;
-            margin-bottom: 15px;
+            min-height: 50px;
+            margin-bottom: 10px;
             border: 2px solid #b3b3b3;
-            box-shadow: inset 0px 2px 5px rgba(0,0,0,0.1);
-            word-wrap: break-word; /* 萬一數字超長，自動換行 */
+            word-wrap: break-word;
         }
-        .calc-res { font-size: 16px; color: #0055ff; margin-top: 5px; }
     </style>
     """, unsafe_allow_html=True)
+
     if st.button("⬅️ 返回首頁"): go_to("首頁")
-    
+
     st.subheader("🧮 539 雙效能智能計算機")
-    
-    # 用 container 把計算機包起來
+
     with st.container():
-        # ⚠️ 這行是關鍵！它就像雷達標記，讓上面的 CSS 知道要改這裡
-        st.markdown('<div class="calc-marker" style="display:none;"></div>', unsafe_allow_html=True)
+        # (這裡不用再加 marker 了，直接套用上面的樣式)
         
         log_text = st.session_state.calc_text if st.session_state.calc_text else "0"
+        # ... (下面繼續接你的 res_text = ... 還有按鈕們) ...
         res_text = f"<div class='calc-res'>{st.session_state.calc_result}</div>" if st.session_state.calc_result else ""
         st.markdown(f"<div class='calc-screen'>{log_text}{res_text}</div>", unsafe_allow_html=True)
         
@@ -1213,3 +1217,4 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
