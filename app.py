@@ -451,48 +451,46 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 老弟吞鍵盤賠罪版：強制數學比例 25%，連字體都鎖死！
+    # 💡 終極贖罪版：改用 CSS Grid (網格排版)，無視 Streamlit 手機版干擾！
     st.markdown("""
     <style>
-        /* 1. 整個橫排絕對 100%，不准超過 */
+        /* 1. 捨棄 flex，把所有橫排變成「網格」，強制切成 4 等分 */
         div[data-testid="stHorizontalBlock"] {
-            display: flex !important;
-            flex-wrap: nowrap !important;
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important; /* 絕對切割成 4 等份 */
+            gap: 5px !important;
             width: 100% !important;
-            gap: 2px !important;
         }
         
-        /* 2. 每根柱子嚴格限制只能佔 25% 的空間 (扣掉縫隙) */
+        /* 2. 針對最後一排 (3星, 4星, 結算)，改成 1:1:2 的比例 */
+        div[data-testid="stHorizontalBlock"]:last-of-type {
+            grid-template-columns: 1fr 1fr 2fr !important;
+        }
+        
+        /* 3. 解除 Streamlit 手機版的 100% 寬度詛咒 */
         div[data-testid="column"] {
-            flex: 0 0 calc(25% - 2px) !important;
+            width: 100% !important;
             min-width: 0px !important;
-            padding: 0px !important; 
         }
         
-        /* 3. 最後一排的第三個按鈕(結算)，給它 50% 的空間 */
-        div[data-testid="stHorizontalBlock"]:last-of-type div[data-testid="column"]:nth-child(3) {
-            flex: 0 0 calc(50% - 2px) !important;
-        }
-        
-        /* 4. 按鈕本體強制填滿柱子 */
+        /* 4. 按鈕自適應填滿網格 */
         div[data-testid="stHorizontalBlock"] button {
             width: 100% !important;
-            min-width: 0px !important;
-            height: 50px !important;
-            padding: 0px !important;
+            height: 55px !important; /* 恢復好按的高度 */
+            padding: 0 !important;
+            border-radius: 8px !important;
         }
         
-        /* 5. 🎯 抓到兇手了！強制縮小按鈕裡面的字，絕對不准撐開按鈕 */
+        /* 5. 強制字體縮小並置中，絕不撐開按鈕 */
         div[data-testid="stHorizontalBlock"] button p {
-            font-size: 16px !important; /* 字體強制縮小 */
+            font-size: 18px !important;
             font-weight: 900 !important;
+            margin: 0 !important;
             white-space: nowrap !important;
             overflow: hidden !important;
-            margin: 0 !important;
-            line-height: 50px !important;
         }
         
-        /* 螢幕優化 */
+        /* 液晶螢幕 */
         .calc-screen {
             background-color: #f0f2f6;
             color: #111111;
@@ -508,6 +506,9 @@ elif st.session_state.page == "計算機":
         }
     </style>
     """, unsafe_allow_html=True)
+
+    # ⬅️ 返回首頁 按鈕
+    if st.button("⬅️ 返回首頁"): go_to("首頁")
 
     if st.button("⬅️ 返回首頁"): go_to("首頁")
 
@@ -1220,5 +1221,6 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
