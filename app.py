@@ -454,27 +454,29 @@ elif st.session_state.page == "計算機":
     # 💡 終極贖罪版：改用 CSS Grid (網格排版)，無視 Streamlit 手機版干擾！
     st.markdown("""
     <style>
-        /* 1. 捨棄 flex，把所有橫排變成「網格」，強制切成 4 等分 */
+        /* 1. 網格排版：加入 max-width，讓電腦版不會被無限拉長！ */
         div[data-testid="stHorizontalBlock"] {
             display: grid !important;
             grid-template-columns: repeat(4, 1fr) !important;
-            gap: 5px !important; /* 這是按鈕之間真正的縫隙，保持 5px 最剛好 */
+            gap: 5px !important; /* 絕對的 5px 小間距 */
             width: 100% !important;
+            max-width: 400px !important; /* 👈 關鍵：電腦上最大只會到 400px，看起來才像計算機！ */
+            margin: 0 auto !important;   /* 👈 關鍵：在電腦螢幕上完美置中 */
         }
         
-        /* 2. 🎯 精準魔法：讓最後一排的「結算」乖乖佔據兩格，絕不干擾 9 號！ */
+        /* 2. 結算按鈕佔兩格 */
         div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
             grid-column: span 2 !important;
         }
         
-        /* 3. 🎯 世紀大解謎：解除 100% 寬度詛咒，並殺掉電腦版的隱形間距！ */
+        /* 3. 殺掉所有隱藏邊距 */
         div[data-testid="column"] {
             width: 100% !important;
             min-width: 0px !important;
-            padding: 0 !important; /* 👈 就是這句！把電腦版偷偷加的左右大留白直接歸零！ */
+            padding: 0 !important;
         }
         
-        /* 4. 按鈕自適應填滿網格 */
+        /* 4. 按鈕自適應 */
         div[data-testid="stHorizontalBlock"] button {
             width: 100% !important;
             height: 55px !important;
@@ -482,7 +484,7 @@ elif st.session_state.page == "計算機":
             border-radius: 8px !important;
         }
         
-        /* 5. 強制字體縮小並置中，絕不撐開按鈕 */
+        /* 5. 字體大小鎖定 */
         div[data-testid="stHorizontalBlock"] button p {
             font-size: 18px !important;
             font-weight: 900 !important;
@@ -491,7 +493,7 @@ elif st.session_state.page == "計算機":
             overflow: hidden !important;
         }
         
-        /* 液晶螢幕 */
+        /* 6. 液晶螢幕也跟著置中並限制寬度 */
         .calc-screen {
             background-color: #f0f2f6;
             color: #111111;
@@ -504,6 +506,9 @@ elif st.session_state.page == "計算機":
             min-height: 55px;
             margin-bottom: 10px;
             border: 2px solid #b3b3b3;
+            max-width: 400px !important; /* 👈 螢幕寬度同步限制 */
+            margin-left: auto !important; /* 👈 螢幕置中 */
+            margin-right: auto !important;
         }
     </style>
     """, unsafe_allow_html=True)
@@ -1220,6 +1225,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
