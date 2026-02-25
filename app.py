@@ -451,10 +451,10 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 終極暴力加寬版：抽乾緩衝區，讓按鈕肉搏肉！
+    # 💡 終極寬度爆發版：手機不動，電腦版按鈕「橫向增肌」
     st.markdown("""
     <style>
-        /* 📱 手機版：維持完美現狀 (不動物件) */
+        /* 📱 手機版：維持完美現狀 (不動) */
         div[data-testid="stHorizontalBlock"] {
             display: grid !important;
             grid-template-columns: repeat(4, 1fr) !important;
@@ -468,43 +468,41 @@ elif st.session_state.page == "計算機":
         div[data-testid="stHorizontalBlock"] button { width: 100% !important; height: 60px !important; }
         div[data-testid="stHorizontalBlock"] button p { font-size: 20px !important; font-weight: 900 !important; }
 
-        /* 💻 電腦版：極致橫向擴張術 */
+        /* 💻 電腦版：解決「瘦長按鈕」的終極方案 */
         @media (min-width: 768px) {
-            /* 1. 讓盤子夠大 (1400px) */
-            .block-container, 
-            [data-testid="stMainBlockContainer"],
-            [data-testid="stAppViewBlockContainer"] {
-                max-width: 1400px !important; 
+            /* 1. 擴張主容器，給按鈕生長的空間 */
+            .block-container, [data-testid="stMainBlockContainer"] {
+                max-width: 1200px !important; 
             }
             
-            /* 2. 🔥 關鍵：強迫格子「內邊距」歸零！ */
-            /* 這是解決「間距很大」的真正黑手，把左右兩邊的隱形牆拆掉 */
-            [data-testid="column"] {
-                padding: 0 2px !important; /* 只留極小的 2px 縫隙 */
+            /* 2. 🔥 核心：強迫每一格(Column)把左右寬度「撐滿」 */
+            div[data-testid="column"] {
+                padding: 0 1px !important; /* 間距縮到最小，只有 1px 縫隙 */
+                flex: 1 1 auto !important;
             }
 
-            /* 3. 把按鈕之間的 gap 設為 0，完全靠上面那句 padding 來控制細縫 */
-            div[data-testid="stHorizontalBlock"] {
-                gap: 0px !important; 
-            }
-            
-            /* 4. 按鈕加高，配合 1400px 的寬度，讓它變成超霸氣大方塊 */
+            /* 3. 🔥 關鍵：讓按鈕寬度直接「暴力橫向擴張」 */
             div[data-testid="stHorizontalBlock"] button {
-                height: 100px !important; 
-                border-radius: 12px !important; 
+                height: 90px !important;     /* 高度適中 */
+                width: 100% !important;      /* 寬度填滿 */
+                min-width: 200px !important; /* 👈 強制設定最小寬度！按鈕絕對會變寬，字就不會被壓縮！ */
+                margin: 0 !important;
+                border-radius: 10px !important;
             }
             
-            /* 5. 字體放大 */
+            /* 4. 字體放大並鎖定 */
             div[data-testid="stHorizontalBlock"] button p {
-                font-size: 40px !important; 
+                font-size: 32px !important; 
+                width: 100% !important;
+                text-align: center !important;
             }
             
-            /* 液晶螢幕同步加寬 */
+            /* 5. 液晶螢幕同步橫向擴張 */
             .calc-screen {
-                font-size: 60px !important; 
-                min-height: 120px;
-                line-height: 100px;
-                max-width: 100% !important; /* 確保螢幕也跟著按鈕一樣寬 */
+                font-size: 50px !important; 
+                min-height: 100px;
+                line-height: 80px;
+                max-width: 100% !important;
             }
         }
     </style>
@@ -1221,6 +1219,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
