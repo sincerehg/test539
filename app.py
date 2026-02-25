@@ -451,13 +451,12 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 雙棲最終型態：手機完美防護 ＋ 電腦 900px 霸氣加寬版
+    # 💡 雙棲最終型態：手機完美防護 ＋ 電腦版窄縫超寬按鈕！
     st.markdown("""
     <style>
         /* =========================================
            📱 手機版基礎設定 (絕對不動它，維持完美現狀)
            ========================================= */
-        /* 1. 網格排版 */
         div[data-testid="stHorizontalBlock"] {
             display: grid !important;
             grid-template-columns: repeat(4, 1fr) !important;
@@ -465,19 +464,16 @@ elif st.session_state.page == "計算機":
             width: 100% !important;
         }
         
-        /* 2. 結算按鈕佔兩格 */
         div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
             grid-column: span 2 !important;
         }
         
-        /* 3. 殺掉多餘留白 */
         div[data-testid="column"] {
             width: 100% !important;
             min-width: 0px !important;
             padding: 0 !important;
         }
         
-        /* 4. 手機版按鈕大小 */
         div[data-testid="stHorizontalBlock"] button {
             width: 100% !important;
             height: 60px !important; 
@@ -485,7 +481,6 @@ elif st.session_state.page == "計算機":
             border-radius: 8px !important;
         }
         
-        /* 5. 手機版字體大小 */
         div[data-testid="stHorizontalBlock"] button p {
             font-size: 20px !important;
             font-weight: 900 !important;
@@ -494,7 +489,6 @@ elif st.session_state.page == "計算機":
             overflow: hidden !important;
         }
         
-        /* 6. 手機版液晶螢幕 */
         .calc-screen {
             background-color: #f0f2f6;
             color: #111111;
@@ -510,33 +504,35 @@ elif st.session_state.page == "計算機":
         }
 
         /* =========================================
-           💻 電腦版專屬放大術 (手機絕對不受影響！)
+           💻 電腦版專屬：間距極致縮小 ＝ 按鈕極致變寬！
            ========================================= */
         @media (min-width: 768px) {
-            /* 🔥 A. 破除封印！把面板拉超寬 900px！(格子直接變寬！) */
+            /* 控制計算機的總寬度，800px 已經非常寬廣 */
             .block-container, 
             [data-testid="stMainBlockContainer"], 
             [data-testid="stAppViewBlockContainer"] {
-                max-width: 900px !important; 
+                max-width: 800px !important; 
                 padding-left: 1rem !important;
                 padding-right: 1rem !important;
             }
             
-            /* B. 電腦版按鈕加高 */
+            /* 🔥 核心要求：把間距縮到極小！ */
             div[data-testid="stHorizontalBlock"] {
-                gap: 12px !important; 
+                gap: 4px !important; /* 👈 從 12px 暴力縮減到 4px！縫隙變小，按鈕本體直接變寬！ */
             }
+            
+            /* 電腦版按鈕大小 */
             div[data-testid="stHorizontalBlock"] button {
                 height: 80px !important; 
                 border-radius: 12px !important; 
             }
             
-            /* C. 電腦版按鈕字體放大 */
+            /* 電腦版按鈕字體放大 */
             div[data-testid="stHorizontalBlock"] button p {
                 font-size: 30px !important; 
             }
             
-            /* D. 電腦版液晶螢幕同步放大 */
+            /* 電腦版液晶螢幕同步放大 */
             .calc-screen {
                 font-size: 40px !important; 
                 min-height: 80px;
@@ -1259,6 +1255,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
