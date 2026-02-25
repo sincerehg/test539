@@ -451,91 +451,70 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 雙棲最終版：手機完美現狀 + 電腦版「大尺寸原色結算鈕」
+    # 💡 終極對齊版：結算按鈕完美對齊「車」與「2星」，寬度填滿不留白
     st.markdown("""
     <style>
-        /* =========================================
-           📱 手機版基礎設定 (守住你的完美版面)
-           ========================================= */
+        /* 📱 手機版：維持完美現狀 */
         div[data-testid="stHorizontalBlock"] {
             display: grid !important;
             grid-template-columns: repeat(4, 1fr) !important;
             gap: 4px !important; 
             width: 100% !important;
         }
+        /* 手機版：結算鈕橫跨最後兩格 */
         div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
-            grid-column: span 2 !important;
+            grid-column: 3 / 5 !important;
         }
         div[data-testid="column"] { width: 100% !important; min-width: 0px !important; padding: 0 !important; }
         div[data-testid="stHorizontalBlock"] button { width: 100% !important; height: 60px !important; border-radius: 8px !important; }
         div[data-testid="stHorizontalBlock"] button p { font-size: 20px !important; font-weight: 900 !important; }
 
-        .calc-screen {
-            background-color: #f0f2f6;
-            color: #111111;
-            padding: 10px 15px;
-            border-radius: 8px;
-            text-align: right;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 28px !important;
-            font-weight: 900;
-            min-height: 60px;
-            margin-bottom: 10px;
-            border: 2px solid #b3b3b3;
-        }
-
-        /* =========================================
-           💻 電腦版專屬：維持原色、單獨把「結算」變大變高
-           ========================================= */
+        /* 💻 電腦版：解決「右下角空一格」的絕對定位 */
         @media (min-width: 768px) {
             .block-container, [data-testid="stMainBlockContainer"] {
                 max-width: 1200px !important; 
             }
             
-            div[data-testid="column"] {
-                padding: 0 1px !important;
+            /* 縮小按鈕與按鈕之間的間距，讓按鈕看起來更寬 */
+            div[data-testid="stHorizontalBlock"] {
+                gap: 5px !important; 
             }
 
-            /* 普通按鈕：維持你喜歡的原本樣子 */
+            /* 普通按鈕：原色、寬大、舒服 */
             div[data-testid="stHorizontalBlock"] button {
-                height: 90px !important;
+                height: 95px !important;
                 width: 100% !important;
                 min-width: 200px !important; 
                 border-radius: 10px !important;
-                /* 拿掉顏色設定，讓它吃 Streamlit 預設的漂亮顏色 */
+                border: 1px solid #dcdcdc !important;
             }
             
-            /* 🎯 關鍵狙擊：把最後一排的「結算」按鈕單獨拉高、拉寬 */
-            /* 透過 span 2 確保它對齊上面的兩顆按鈕寬度 */
-            div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
-                grid-column: span 2 !important;
+            /* 🎯 關鍵對齊術：強制讓最後一排的「結算」從第 3 格長到第 4 格 */
+            div[data-testid="stHorizontalBlock"]:last-of-type div[data-testid="column"]:nth-child(3) {
+                grid-column: 3 / 5 !important; /* 👈 強制佔據第3與第4欄，絕對不准留空！ */
             }
             
-            /* 把結算按鈕的高度拉得比別人更有存在感 */
-            div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child button {
-                height: 120px !important; /* 👈 從 90px 有感升級到 120px，視覺上非常霸氣 */
+            /* 讓結算按鈕稍微厚實一點點，展現地基感，但不改顏色 */
+            div[data-testid="stHorizontalBlock"]:last-of-type div[data-testid="column"]:nth-child(3) button {
+                height: 110px !important; 
             }
 
             div[data-testid="stHorizontalBlock"] button p {
-                font-size: 32px !important; 
+                font-size: 36px !important; 
                 font-weight: 900 !important;
             }
 
-            /* 結算鈕裡面的字也大一點，對齊它的高度 */
-            div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child button p {
-                font-size: 45px !important; 
-            }
-            
+            /* 螢幕同步對齊 */
             .calc-screen {
                 font-size: 55px !important; 
                 min-height: 110px;
                 line-height: 90px;
+                margin-bottom: 15px;
             }
         }
     </style>
     """, unsafe_allow_html=True)
 
-    # ⬅️ 返回首頁 按鈕
     if st.button("⬅️ 返回首頁"): go_to("首頁")
 
     st.subheader("🧮 539 雙效能智能計算機")
@@ -1247,6 +1226,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
