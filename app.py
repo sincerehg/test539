@@ -510,8 +510,6 @@ elif st.session_state.page == "計算機":
     # ⬅️ 返回首頁 按鈕
     if st.button("⬅️ 返回首頁"): go_to("首頁")
 
-    if st.button("⬅️ 返回首頁"): go_to("首頁")
-
     st.subheader("🧮 539 雙效能智能計算機")
 
     with st.container():
@@ -1221,6 +1219,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
