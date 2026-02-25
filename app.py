@@ -451,88 +451,62 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 終極無邊際版：極致窄縫、按鈕無限拉寬！
+    # 💡 雙棲最終型態：手機完美防護 ＋ 電腦版極限拉寬 (豆腐塊按鈕)
     st.markdown("""
     <style>
-        /* =========================================
-           🌍 全局共用：極致縮小縫隙，讓按鈕變寬！
-           ========================================= */
+        /* 📱 手機版維持現狀 (絕對不動) */
         div[data-testid="stHorizontalBlock"] {
             display: grid !important;
             grid-template-columns: repeat(4, 1fr) !important;
-            gap: 2px !important; /* 🔥 核心大絕：間距壓縮到極限的 2px！空間全部還給按鈕！ */
+            gap: 2px !important; 
             width: 100% !important;
         }
-        
         div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
             grid-column: span 2 !important;
         }
-        
-        div[data-testid="column"] {
-            width: 100% !important;
-            min-width: 0px !important;
-            padding: 0 !important; /* 🔥 殺死所有隱形的左右留白 */
-        }
-        
-        div[data-testid="stHorizontalBlock"] button {
-            width: 100% !important; /* 🔥 強迫按鈕 100% 填滿變寬的格子 */
-            height: 65px !important; 
-            padding: 0 !important;
-            border-radius: 8px !important;
-        }
-        
-        div[data-testid="stHorizontalBlock"] button p {
-            font-size: 22px !important;
-            font-weight: 900 !important;
-            margin: 0 !important;
-            white-space: nowrap !important;
-            overflow: hidden !important;
-        }
-        
-        .calc-screen {
-            background-color: #f0f2f6;
-            color: #111111;
-            padding: 10px 15px;
-            border-radius: 8px;
-            text-align: right;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 32px !important;
-            font-weight: 900;
-            min-height: 70px;
-            margin-bottom: 10px;
-            border: 2px solid #b3b3b3;
-        }
+        div[data-testid="column"] { width: 100% !important; min-width: 0px !important; padding: 0 !important; }
+        div[data-testid="stHorizontalBlock"] button { width: 100% !important; height: 60px !important; border-radius: 8px !important; }
+        div[data-testid="stHorizontalBlock"] button p { font-size: 20px !important; font-weight: 900 !important; margin: 0 !important; }
 
-        /* =========================================
-           💻 電腦版專屬：解放封印，讓按鈕霸道變寬！
-           ========================================= */
+        /* 💻 電腦版：極限放大區 (只在大螢幕生效) */
         @media (min-width: 768px) {
+            /* 1. 把整個頁面的寬度拉到 1400px，按鈕格子會跟著瞬間變超寬！ */
             .block-container, 
-            [data-testid="stMainBlockContainer"] {
-                max-width: 1200px !important; /* 🔥 解除封印！讓電腦版螢幕可以展開到 1200px，按鈕絕對超級寬！ */
-                padding-left: 2rem !important;
-                padding-right: 2rem !important;
+            [data-testid="stMainBlockContainer"],
+            [data-testid="stAppViewBlockContainer"] {
+                max-width: 1400px !important; 
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
             }
             
+            /* 2. 把間距壓到極致，讓空間全部變成按鈕的肉 */
+            div[data-testid="stHorizontalBlock"] {
+                gap: 5px !important; 
+            }
+            
+            /* 3. 按鈕高度拉高，配合寬度，讓按鈕變成又大又厚實的方塊 */
             div[data-testid="stHorizontalBlock"] button {
-                height: 90px !important; /* 因為按鈕變超寬，高度也要拉高比例才霸氣 */
-                border-radius: 12px !important; 
+                height: 100px !important; /* 從 90px 再拉高到 100px */
+                border-radius: 15px !important; 
             }
             
+            /* 4. 字體直接飆到 45px，霸氣十足 */
             div[data-testid="stHorizontalBlock"] button p {
-                font-size: 36px !important; /* 字體也跟著霸氣升級 */
+                font-size: 45px !important; 
             }
             
+            /* 5. 液晶螢幕也同步加寬加高 */
             .calc-screen {
-                font-size: 48px !important; 
-                min-height: 90px;
-                margin-bottom: 15px;
+                font-size: 60px !important; 
+                min-height: 120px;
+                line-height: 100px;
+                margin-bottom: 20px;
             }
         }
     </style>
     """, unsafe_allow_html=True)
 
-    # ⬅️ 返回首頁 按鈕
+    # ⬅️ 返回首頁 按鈕 (這行也要對齊喔)
     if st.button("⬅️ 返回首頁"): go_to("首頁")
 
     st.subheader("🧮 539 雙效能智能計算機")
@@ -1244,6 +1218,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
