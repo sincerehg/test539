@@ -454,29 +454,27 @@ elif st.session_state.page == "計算機":
     # 💡 終極贖罪版：改用 CSS Grid (網格排版)，無視 Streamlit 手機版干擾！
     st.markdown("""
     <style>
-        /* 1. 網格排版：加入 max-width，讓電腦版不會被無限拉長！ */
+        /* 1. 維持完美的網格排版 (拿掉會打架的置中語法) */
         div[data-testid="stHorizontalBlock"] {
             display: grid !important;
             grid-template-columns: repeat(4, 1fr) !important;
-            gap: 5px !important; /* 絕對的 5px 小間距 */
+            gap: 5px !important; /* 這是我們自訂的完美 5px 間距 */
             width: 100% !important;
-            max-width: 400px !important; /* 👈 關鍵：電腦上最大只會到 400px，看起來才像計算機！ */
-            margin: 0 auto !important;   /* 👈 關鍵：在電腦螢幕上完美置中 */
         }
         
-        /* 2. 結算按鈕佔兩格 */
+        /* 2. 讓結算按鈕乖乖佔兩格 */
         div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
             grid-column: span 2 !important;
         }
         
-        /* 3. 殺掉所有隱藏邊距 */
+        /* 3. 🎯 唯一關鍵：殺掉電腦版的隱形左右護城河！ */
         div[data-testid="column"] {
             width: 100% !important;
             min-width: 0px !important;
-            padding: 0 !important;
+            padding: 0 !important; /* 👈 就是這句！把電腦版偷偷加的左右大留白直接歸零！ */
         }
         
-        /* 4. 按鈕自適應 */
+        /* 4. 按鈕自適應填滿網格 */
         div[data-testid="stHorizontalBlock"] button {
             width: 100% !important;
             height: 55px !important;
@@ -484,7 +482,7 @@ elif st.session_state.page == "計算機":
             border-radius: 8px !important;
         }
         
-        /* 5. 字體大小鎖定 */
+        /* 5. 強制字體縮小並置中，絕不撐開按鈕 */
         div[data-testid="stHorizontalBlock"] button p {
             font-size: 18px !important;
             font-weight: 900 !important;
@@ -493,7 +491,7 @@ elif st.session_state.page == "計算機":
             overflow: hidden !important;
         }
         
-        /* 6. 液晶螢幕也跟著置中並限制寬度 */
+        /* 液晶螢幕 (恢復原本滿版的樣子，不亂搞置中) */
         .calc-screen {
             background-color: #f0f2f6;
             color: #111111;
@@ -506,9 +504,6 @@ elif st.session_state.page == "計算機":
             min-height: 55px;
             margin-bottom: 10px;
             border: 2px solid #b3b3b3;
-            max-width: 400px !important; /* 👈 螢幕寬度同步限制 */
-            margin-left: auto !important; /* 👈 螢幕置中 */
-            margin-right: auto !important;
         }
     </style>
     """, unsafe_allow_html=True)
@@ -1225,6 +1220,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
