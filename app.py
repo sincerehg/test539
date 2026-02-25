@@ -451,50 +451,55 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 老弟吐血究極版：殺掉隱藏邊距，用最穩定的 Flex 與魔法選擇器！
+    # 💡 老弟泣血最終版：絕對百分比數學排版，粉碎 Streamlit 所有手機端流氓設定！
     st.markdown("""
     <style>
-        /* 1. 整個橫排強制不換行，原本的巨大間距歸零 */
+        /* 1. 整個橫排強制變成彈性盒，絕不換行，剩餘空間自動平均分配到中間 (space-between) */
         div[data-testid="stHorizontalBlock"] {
             display: flex !important;
             flex-direction: row !important;
             flex-wrap: nowrap !important;
-            gap: 0px !important;
+            justify-content: space-between !important;
             width: 100% !important;
+            padding: 0 !important;
+            margin-bottom: 6px !important; /* 排與排之間的上下間距 */
         }
         
-        /* 2. 💥 殺掉 Streamlit 預設的 16px 隱藏邊距！每格強制 1 等份 */
-        div[data-testid="column"] {
-            flex: 1 1 0% !important;
-            width: auto !important;
+        /* 2. 🛡️ 鐵壁防禦：強制每個格子「絕對只能佔 23%」，徹底無視手機版的 100% 寬度詛咒 */
+        div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+            width: 23% !important;
+            max-width: 23% !important;
             min-width: 0px !important;
-            padding: 0 3px !important; /* 只留 3px 的舒適小縫隙 */
+            flex: 0 0 23% !important;
+            padding: 0 !important; /* 徹底殺掉 Streamlit 的隱藏邊距 */
         }
         
-        /* 3. 🎯 世紀大絕招：針對「第三格，且剛好是最後一格」的按鈕 (也就是結算鍵)，才給它 2 倍寬度！ */
-        div[data-testid="column"]:nth-child(3):last-child {
-            flex: 2 1 0% !important;
+        /* 3. 🎯 終極精準狙擊：只有當這個格子是「第 3 個，且後面沒有別人了」，才給它 49% 的兩倍寬度！(完美避開 9 暴走的問題) */
+        div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
+            width: 49% !important;
+            max-width: 49% !important;
+            flex: 0 0 49% !important;
         }
         
-        /* 4. 按鈕本體 */
+        /* 4. 按鈕乖乖填滿自己的 23% 格子 */
         div[data-testid="stHorizontalBlock"] button {
             width: 100% !important;
             height: 50px !important;
             padding: 0 !important;
-            border-radius: 6px !important;
+            margin: 0 !important;
+            border-radius: 8px !important;
         }
         
-        /* 5. 字體強制縮小鎖死，絕對不撐開邊界 */
+        /* 5. 字體大小強制鎖定，絕不撐開按鈕 */
         div[data-testid="stHorizontalBlock"] button p {
-            font-size: 16px !important;
+            font-size: 18px !important;
             font-weight: 900 !important;
             margin: 0 !important;
             white-space: nowrap !important;
             overflow: hidden !important;
-            line-height: 50px !important;
         }
         
-        /* 液晶螢幕稍微優化，不留太多多餘空白 */
+        /* 液晶螢幕優化 */
         .calc-screen {
             background-color: #f0f2f6;
             color: #111111;
@@ -505,7 +510,7 @@ elif st.session_state.page == "計算機":
             font-size: 24px !important;
             font-weight: 900;
             min-height: 50px;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             border: 2px solid #b3b3b3;
         }
     </style>
@@ -1222,6 +1227,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
