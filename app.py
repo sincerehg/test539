@@ -451,33 +451,92 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 終極贖罪版：改用 CSS Grid (網格排版)，無視 Streamlit 手機版干擾！
-    # ========================================= */
-     #      /*💻 電腦版專屬放大術 (手機絕對不受影響！) */
-      #     /*========================================= */
+    # 💡 雙棲最終型態：手機完美防護 ＋ 電腦 900px 霸氣加寬版
+    st.markdown("""
+    <style>
+        /* =========================================
+           📱 手機版基礎設定 (絕對不動它，維持完美現狀)
+           ========================================= */
+        /* 1. 網格排版 */
+        div[data-testid="stHorizontalBlock"] {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 6px !important; 
+            width: 100% !important;
+        }
+        
+        /* 2. 結算按鈕佔兩格 */
+        div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
+            grid-column: span 2 !important;
+        }
+        
+        /* 3. 殺掉多餘留白 */
+        div[data-testid="column"] {
+            width: 100% !important;
+            min-width: 0px !important;
+            padding: 0 !important;
+        }
+        
+        /* 4. 手機版按鈕大小 */
+        div[data-testid="stHorizontalBlock"] button {
+            width: 100% !important;
+            height: 60px !important; 
+            padding: 0 !important;
+            border-radius: 8px !important;
+        }
+        
+        /* 5. 手機版字體大小 */
+        div[data-testid="stHorizontalBlock"] button p {
+            font-size: 20px !important;
+            font-weight: 900 !important;
+            margin: 0 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+        }
+        
+        /* 6. 手機版液晶螢幕 */
+        .calc-screen {
+            background-color: #f0f2f6;
+            color: #111111;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: right;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 28px !important;
+            font-weight: 900;
+            min-height: 60px;
+            margin-bottom: 10px;
+            border: 2px solid #b3b3b3;
+        }
+
+        /* =========================================
+           💻 電腦版專屬放大術 (手機絕對不受影響！)
+           ========================================= */
         @media (min-width: 768px) {
-       #     /* 🔥 A. 破除封印！把面板拉超寬！(數字越大，按鈕格子就越寬！) */
+            /* 🔥 A. 破除封印！把面板拉超寬 900px！(格子直接變寬！) */
             .block-container, 
             [data-testid="stMainBlockContainer"], 
             [data-testid="stAppViewBlockContainer"] {
-                max-width: 900px !important; /* 👈 從 600px 改成 900px，格子直接變超寬！如果你覺得還不夠寬，可以直接改成 1200px！ */
+                max-width: 900px !important; 
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
             }
             
-        #    /* B. 電腦版按鈕加高 */
+            /* B. 電腦版按鈕加高 */
             div[data-testid="stHorizontalBlock"] {
-                gap: 12px !important; /* 既然格子變寬了，縫隙也稍微拉開一點點 */
+                gap: 12px !important; 
             }
             div[data-testid="stHorizontalBlock"] button {
                 height: 80px !important; 
                 border-radius: 12px !important; 
             }
             
-         #   /* C. 電腦版按鈕字體放大 */
+            /* C. 電腦版按鈕字體放大 */
             div[data-testid="stHorizontalBlock"] button p {
                 font-size: 30px !important; 
             }
             
-          #  /* D. 電腦版液晶螢幕同步放大 */
+            /* D. 電腦版液晶螢幕同步放大 */
             .calc-screen {
                 font-size: 40px !important; 
                 min-height: 80px;
@@ -485,6 +544,8 @@ elif st.session_state.page == "計算機":
                 margin-bottom: 15px;
             }
         }
+    </style>
+    """, unsafe_allow_html=True)
 
     # ⬅️ 返回首頁 按鈕
     if st.button("⬅️ 返回首頁"): go_to("首頁")
@@ -1198,6 +1259,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
