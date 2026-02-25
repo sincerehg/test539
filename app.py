@@ -451,62 +451,65 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 雙棲最終型態：手機完美防護 ＋ 電腦版極限拉寬 (豆腐塊按鈕)
+    # 💡 終極暴力加寬版：抽乾緩衝區，讓按鈕肉搏肉！
     st.markdown("""
     <style>
-        /* 📱 手機版維持現狀 (絕對不動) */
+        /* 📱 手機版：維持完美現狀 (不動物件) */
         div[data-testid="stHorizontalBlock"] {
             display: grid !important;
             grid-template-columns: repeat(4, 1fr) !important;
-            gap: 2px !important; 
+            gap: 4px !important; 
             width: 100% !important;
         }
         div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
             grid-column: span 2 !important;
         }
         div[data-testid="column"] { width: 100% !important; min-width: 0px !important; padding: 0 !important; }
-        div[data-testid="stHorizontalBlock"] button { width: 100% !important; height: 60px !important; border-radius: 8px !important; }
-        div[data-testid="stHorizontalBlock"] button p { font-size: 20px !important; font-weight: 900 !important; margin: 0 !important; }
+        div[data-testid="stHorizontalBlock"] button { width: 100% !important; height: 60px !important; }
+        div[data-testid="stHorizontalBlock"] button p { font-size: 20px !important; font-weight: 900 !important; }
 
-        /* 💻 電腦版：極限放大區 (只在大螢幕生效) */
+        /* 💻 電腦版：極致橫向擴張術 */
         @media (min-width: 768px) {
-            /* 1. 把整個頁面的寬度拉到 1400px，按鈕格子會跟著瞬間變超寬！ */
+            /* 1. 讓盤子夠大 (1400px) */
             .block-container, 
             [data-testid="stMainBlockContainer"],
             [data-testid="stAppViewBlockContainer"] {
                 max-width: 1400px !important; 
-                padding-left: 1rem !important;
-                padding-right: 1rem !important;
             }
             
-            /* 2. 把間距壓到極致，讓空間全部變成按鈕的肉 */
+            /* 2. 🔥 關鍵：強迫格子「內邊距」歸零！ */
+            /* 這是解決「間距很大」的真正黑手，把左右兩邊的隱形牆拆掉 */
+            [data-testid="column"] {
+                padding: 0 2px !important; /* 只留極小的 2px 縫隙 */
+            }
+
+            /* 3. 把按鈕之間的 gap 設為 0，完全靠上面那句 padding 來控制細縫 */
             div[data-testid="stHorizontalBlock"] {
-                gap: 5px !important; 
+                gap: 0px !important; 
             }
             
-            /* 3. 按鈕高度拉高，配合寬度，讓按鈕變成又大又厚實的方塊 */
+            /* 4. 按鈕加高，配合 1400px 的寬度，讓它變成超霸氣大方塊 */
             div[data-testid="stHorizontalBlock"] button {
-                height: 100px !important; /* 從 90px 再拉高到 100px */
-                border-radius: 15px !important; 
+                height: 100px !important; 
+                border-radius: 12px !important; 
             }
             
-            /* 4. 字體直接飆到 45px，霸氣十足 */
+            /* 5. 字體放大 */
             div[data-testid="stHorizontalBlock"] button p {
-                font-size: 45px !important; 
+                font-size: 40px !important; 
             }
             
-            /* 5. 液晶螢幕也同步加寬加高 */
+            /* 液晶螢幕同步加寬 */
             .calc-screen {
                 font-size: 60px !important; 
                 min-height: 120px;
                 line-height: 100px;
-                margin-bottom: 20px;
+                max-width: 100% !important; /* 確保螢幕也跟著按鈕一樣寬 */
             }
         }
     </style>
     """, unsafe_allow_html=True)
 
-    # ⬅️ 返回首頁 按鈕 (這行也要對齊喔)
     if st.button("⬅️ 返回首頁"): go_to("首頁")
 
     st.subheader("🧮 539 雙效能智能計算機")
@@ -1218,6 +1221,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
