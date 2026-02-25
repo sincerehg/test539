@@ -451,59 +451,74 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 終極鋼鐵版：解決爆炸問題，結算鈕自動長胖填滿右下角
+    # 💡 終極保證版：手機回歸穩定 Grid (絕不爆版) + 電腦版霸氣鎖死
     st.markdown("""
     <style>
-        /* 1. 🌍 核心排版：不強切 Grid，改用 Flex 讓它自動填滿 */
+        /* =========================================
+           📱 手機版基礎設定：回歸最穩定的 Grid 排版，徹底解決超出邊界
+           ========================================= */
         div[data-testid="stHorizontalBlock"] {
-            display: flex !important;
-            flex-direction: row !important;
-            flex-wrap: nowrap !important;
-            gap: 4px !important; /* 縮小按鈕間距，讓按鈕變寬 */
+            display: grid !important;
+            /* 強制切成 4 格網格，這是手機不爆版的關鍵 */
+            grid-template-columns: repeat(4, 1fr) !important; 
+            gap: 4px !important; 
             width: 100% !important;
-            align-items: stretch !important;
+            box-sizing: border-box !important;
         }
 
-        /* 2. ⚡ 殺掉格子的內留白，這是按鈕變瘦的元兇 */
+        /* 💥 解決「超出邊界」的核彈級指令：強制寬度自動，殺掉 Streamlit 的 100% 撐破限制 */
         div[data-testid="column"] {
+            width: auto !important; 
+            min-width: 0px !important; 
             padding: 0 !important;
-            min-width: 0 !important;
-            flex-grow: 1 !important; /* 讓格子自動伸展 */
         }
 
-        /* 3. 🎯 關鍵：讓結算按鈕所在的那個「2倍權重」格子，真的長出兩倍寬度 */
-        /* 這會完美對齊上面的「2星」和「車」，且絕對不留空洞 */
+        /* 🎯 結算按鈕：在 4 格網格中精準橫跨最後兩格 (對齊車與2星) */
         div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
-            flex-grow: 2 !important;
-            flex-basis: 50% !important;
+            grid-column: span 2 !important; /* 填滿第3格與第4格，絕對不留空 */
         }
 
-        /* 4. 按鈕本體設定 */
+        /* 手機按鈕本體大小 */
         div[data-testid="stHorizontalBlock"] button {
             width: 100% !important;
             height: 60px !important;
             border-radius: 8px !important;
+            padding: 0 !important;
+        }
+        
+        div[data-testid="stHorizontalBlock"] button p {
+            font-size: 18px !important; /* 稍微縮小 2px 避免手機文字太擠 */
+            font-weight: 900 !important;
+            margin: 0 !important;
         }
 
-        /* 5. 💻 電腦版專屬：把按鈕拉得更寬大 */
+        /* =========================================
+           💻 電腦版專屬：鎖死設定，維持你的霸氣手感
+           ========================================= */
         @media (min-width: 768px) {
-            .block-container {
+            .block-container, [data-testid="stMainBlockContainer"], [data-testid="stAppViewBlockContainer"] {
                 max-width: 1200px !important;
             }
+            
+            div[data-testid="stHorizontalBlock"] {
+                gap: 5px !important;
+            }
+            
             div[data-testid="stHorizontalBlock"] button {
-                height: 90px !important; /* 電腦版按鈕加高 */
+                height: 90px !important;
             }
-            /* 電腦版結算按鈕單獨加高，更有霸氣 */
-            div[data-testid="stHorizontalBlock"]:last-of-type div[data-testid="column"]:last-child button {
-                height: 110px !important;
+
+            /* 結算按鈕在電腦上維持 120px，霸氣地基感 */
+            div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child button {
+                height: 120px !important;
             }
+
             div[data-testid="stHorizontalBlock"] button p {
-                font-size: 32px !important;
-                font-weight: 900 !important;
+                font-size: 36px !important;
             }
         }
 
-        /* 6. 液晶螢幕 */
+        /* 液晶螢幕 */
         .calc-screen {
             background-color: #f0f2f6;
             color: #111111;
@@ -1232,6 +1247,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
