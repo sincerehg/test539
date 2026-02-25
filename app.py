@@ -451,59 +451,77 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 終極鋼鐵版：解決爆炸問題，結算鈕自動長胖填滿右下角
+    # 💡 終極封印版：手機版結算鈕拉滿不留白 + 電腦版鎖死不動
     st.markdown("""
     <style>
-        /* 1. 🌍 核心排版：不強切 Grid，改用 Flex 讓它自動填滿 */
+        /* =========================================
+           📱 手機版基礎設定：強制填滿右下角，不留空格
+           ========================================= */
         div[data-testid="stHorizontalBlock"] {
             display: flex !important;
             flex-direction: row !important;
             flex-wrap: nowrap !important;
-            gap: 4px !important; /* 縮小按鈕間距，讓按鈕變寬 */
+            gap: 4px !important;
             width: 100% !important;
             align-items: stretch !important;
         }
 
-        /* 2. ⚡ 殺掉格子的內留白，這是按鈕變瘦的元兇 */
+        /* 殺掉所有格子的內邊距，讓按鈕變胖變寬 */
         div[data-testid="column"] {
             padding: 0 !important;
             min-width: 0 !important;
-            flex-grow: 1 !important; /* 讓格子自動伸展 */
+            flex-grow: 1 !important;
         }
 
-        /* 3. 🎯 關鍵：讓結算按鈕所在的那個「2倍權重」格子，真的長出兩倍寬度 */
-        /* 這會完美對齊上面的「2星」和「車」，且絕對不留空洞 */
+        /* 🎯 手機版大絕：強迫「結算」按鈕佔據 2 倍空間，填滿右邊剩餘所有位置 */
+        /* 對齊上面的「3星」與「車」*/
         div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
             flex-grow: 2 !important;
-            flex-basis: 50% !important;
+            flex-basis: 50% !important; /* 強制佔據一半寬度，把空格塞滿 */
         }
 
-        /* 4. 按鈕本體設定 */
+        /* 手機按鈕本體 */
         div[data-testid="stHorizontalBlock"] button {
             width: 100% !important;
             height: 60px !important;
             border-radius: 8px !important;
         }
 
-        /* 5. 💻 電腦版專屬：把按鈕拉得更寬大 */
+        div[data-testid="stHorizontalBlock"] button p {
+            font-size: 20px !important;
+            font-weight: 900 !important;
+            margin: 0 !important;
+        }
+
+        /* =========================================
+           💻 電腦版專屬：鎖死不動，維持你最滿意的霸霸寬度
+           ========================================= */
         @media (min-width: 768px) {
-            .block-container {
+            .block-container, [data-testid="stMainBlockContainer"], [data-testid="stAppViewBlockContainer"] {
                 max-width: 1200px !important;
             }
+            
+            div[data-testid="stHorizontalBlock"] {
+                gap: 5px !important;
+            }
+            
             div[data-testid="stHorizontalBlock"] button {
-                height: 90px !important; /* 電腦版按鈕加高 */
+                height: 90px !important;
+                border-radius: 10px !important;
             }
-            /* 電腦版結算按鈕單獨加高，更有霸氣 */
+
+            /* 電腦版結算按鈕單獨維持 120px 高度，霸氣填滿 */
             div[data-testid="stHorizontalBlock"]:last-of-type div[data-testid="column"]:last-child button {
-                height: 110px !important;
+                height: 120px !important;
             }
+
             div[data-testid="stHorizontalBlock"] button p {
-                font-size: 32px !important;
+                font-size: 36px !important;
                 font-weight: 900 !important;
             }
         }
 
-        /* 6. 液晶螢幕 */
+        /* 液晶螢幕 */
         .calc-screen {
             background-color: #f0f2f6;
             color: #111111;
@@ -520,7 +538,7 @@ elif st.session_state.page == "計算機":
     </style>
     """, unsafe_allow_html=True)
 
-    # ⬅️ 返回首頁 按鈕
+    # ⬅️ 返回首頁 按鈕 (這行也要對齊喔)
     if st.button("⬅️ 返回首頁"): go_to("首頁")
 
     st.subheader("🧮 539 雙效能智能計算機")
@@ -1232,6 +1250,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
