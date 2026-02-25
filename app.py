@@ -454,31 +454,30 @@ elif st.session_state.page == "計算機":
     # 💡 終極贖罪版：改用 CSS Grid (網格排版)，無視 Streamlit 手機版干擾！
     st.markdown("""
     <style>
-        /* 1. 聽大哥的：捨棄 flex，把所有橫排變成「網格」，強制切成 4 等分 */
+        /* 1. 捨棄 flex，把所有橫排變成「網格」，強制切成 4 等分 */
         div[data-testid="stHorizontalBlock"] {
             display: grid !important;
-            grid-template-columns: repeat(4, 1fr) !important; /* 全局絕對切割成 4 等份 */
-            gap: 5px !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 5px !important; /* 這是按鈕之間真正的縫隙，保持 5px 最剛好 */
             width: 100% !important;
         }
         
-        /* 2. 🎯 老弟修復「9」暴走的精準魔法！ */
-        /* 讓系統自己去算：如果這一排剛好只有 3 個按鈕，就把第 3 個按鈕（結算）向右拉長，霸佔兩格！ */
-        /* 第一排有 4 個按鈕，所以「9」絕對不會被拉長！ */
+        /* 2. 🎯 精準魔法：讓最後一排的「結算」乖乖佔據兩格，絕不干擾 9 號！ */
         div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
             grid-column: span 2 !important;
         }
         
-        /* 3. 解除 Streamlit 手機版的 100% 寬度詛咒 */
+        /* 3. 🎯 世紀大解謎：解除 100% 寬度詛咒，並殺掉電腦版的隱形間距！ */
         div[data-testid="column"] {
             width: 100% !important;
             min-width: 0px !important;
+            padding: 0 !important; /* 👈 就是這句！把電腦版偷偷加的左右大留白直接歸零！ */
         }
         
         /* 4. 按鈕自適應填滿網格 */
         div[data-testid="stHorizontalBlock"] button {
             width: 100% !important;
-            height: 55px !important; /* 恢復好按的高度 */
+            height: 55px !important;
             padding: 0 !important;
             border-radius: 8px !important;
         }
@@ -1221,6 +1220,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
