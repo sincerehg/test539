@@ -524,7 +524,7 @@ elif st.session_state.page == "計算機":
             /* 電腦版按鈕大小 */
             div[data-testid="stHorizontalBlock"] button {
                 height: 80px !important; 
-                border-radius: 12px !important; 
+                border-radius: 120px !important; 
             }
             
             /* 電腦版按鈕字體放大 */
@@ -1255,6 +1255,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
