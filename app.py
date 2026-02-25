@@ -451,6 +451,56 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
+    # 💡 老弟特製：計算機專屬「防變形+自動縮放」CSS
+    st.markdown("""
+    <style>
+        /* 1. 滿版寬度，強制不換行，縮小按鈕間距 */
+        div[data-testid="stHorizontalBlock"] {
+            flex-wrap: nowrap !important;
+            gap: 3px !important; 
+            width: 100% !important;
+        }
+        
+        /* 2. 每個按鈕的格子「絕對平均分配」，且不准撐開螢幕 (min-width: 0 才是重點) */
+        div[data-testid="column"] {
+            min-width: 0px !important; 
+            flex: 1 1 0% !important; 
+        }
+        
+        /* 3. 針對最後一排 [3星, 4星, 結算] 調整比例 (1:1:2) */
+        div[data-testid="stHorizontalBlock"]:last-of-type div[data-testid="column"]:nth-child(3) {
+            flex: 2 1 0% !important;
+        }
+        
+        /* 4. 按鈕自適應大小，強制鎖在格子內 */
+        div[data-testid="stHorizontalBlock"] button {
+            width: 100% !important;
+            height: 55px !important;
+            font-size: 18px !important; /* 字體稍微調小一點，避免擠爆 */
+            font-weight: 900 !important;
+            padding: 0px !important;
+            border-radius: 8px !important;
+        }
+        
+        /* 5. 液晶螢幕再優化 (避免輸入太長撐爆螢幕) */
+        .calc-screen {
+            background-color: #f0f2f6;
+            color: #111111;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: right;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 26px !important;
+            font-weight: 900;
+            min-height: 60px;
+            margin-bottom: 15px;
+            border: 2px solid #b3b3b3;
+            box-shadow: inset 0px 2px 5px rgba(0,0,0,0.1);
+            word-wrap: break-word; /* 萬一數字超長，自動換行 */
+        }
+        .calc-res { font-size: 16px; color: #0055ff; margin-top: 5px; }
+    </style>
+    """, unsafe_allow_html=True)
     if st.button("⬅️ 返回首頁"): go_to("首頁")
     
     st.subheader("🧮 539 雙效能智能計算機")
