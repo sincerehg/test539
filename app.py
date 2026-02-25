@@ -451,10 +451,12 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 終極版：手機完美 + 電腦版「超級結算」按鈕
+    # 💡 雙棲最終版：手機完美現狀 + 電腦版「大尺寸原色結算鈕」
     st.markdown("""
     <style>
-        /* 📱 手機版：維持現狀 (老樣子，不動它) */
+        /* =========================================
+           📱 手機版基礎設定 (守住你的完美版面)
+           ========================================= */
         div[data-testid="stHorizontalBlock"] {
             display: grid !important;
             grid-template-columns: repeat(4, 1fr) !important;
@@ -468,7 +470,23 @@ elif st.session_state.page == "計算機":
         div[data-testid="stHorizontalBlock"] button { width: 100% !important; height: 60px !important; border-radius: 8px !important; }
         div[data-testid="stHorizontalBlock"] button p { font-size: 20px !important; font-weight: 900 !important; }
 
-        /* 💻 電腦版：結算按鈕霸權化 */
+        .calc-screen {
+            background-color: #f0f2f6;
+            color: #111111;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: right;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 28px !important;
+            font-weight: 900;
+            min-height: 60px;
+            margin-bottom: 10px;
+            border: 2px solid #b3b3b3;
+        }
+
+        /* =========================================
+           💻 電腦版專屬：維持原色、單獨把「結算」變大變高
+           ========================================= */
         @media (min-width: 768px) {
             .block-container, [data-testid="stMainBlockContainer"] {
                 max-width: 1200px !important; 
@@ -478,23 +496,24 @@ elif st.session_state.page == "計算機":
                 padding: 0 1px !important;
             }
 
-            /* 通用按鈕設定 */
+            /* 普通按鈕：維持你喜歡的原本樣子 */
             div[data-testid="stHorizontalBlock"] button {
                 height: 90px !important;
                 width: 100% !important;
                 min-width: 200px !important; 
-                border-radius: 12px !important;
-                background-color: #f0f2f6; /* 普通按鈕淺灰色 */
-                color: #31333F;
+                border-radius: 10px !important;
+                /* 拿掉顏色設定，讓它吃 Streamlit 預設的漂亮顏色 */
             }
             
-            /* 🎯 關鍵：單獨狙擊「結算」按鈕，讓它放大並變色 */
-            /* 它是最後一排的第 3 個 Column 裡面的按鈕 */
-            div[data-testid="stHorizontalBlock"]:last-of-type div[data-testid="column"]:nth-child(3) button {
-                height: 110px !important;      /* 👈 比別的按鈕更高、更厚實 */
-                background-color: #FF8C00 !important; /* 👈 霸氣橘色，一眼就看到 */
-                color: white !important;       /* 白字更清晰 */
-                box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important; /* 加點陰影增加立體感 */
+            /* 🎯 關鍵狙擊：把最後一排的「結算」按鈕單獨拉高、拉寬 */
+            /* 透過 span 2 確保它對齊上面的兩顆按鈕寬度 */
+            div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
+                grid-column: span 2 !important;
+            }
+            
+            /* 把結算按鈕的高度拉得比別人更有存在感 */
+            div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child button {
+                height: 120px !important; /* 👈 從 90px 有感升級到 120px，視覺上非常霸氣 */
             }
 
             div[data-testid="stHorizontalBlock"] button p {
@@ -502,9 +521,9 @@ elif st.session_state.page == "計算機":
                 font-weight: 900 !important;
             }
 
-            /* 結算按鈕裡面的字要更大 */
-            div[data-testid="stHorizontalBlock"]:last-of-type div[data-testid="column"]:nth-child(3) button p {
-                font-size: 40px !important; 
+            /* 結算鈕裡面的字也大一點，對齊它的高度 */
+            div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child button p {
+                font-size: 45px !important; 
             }
             
             .calc-screen {
@@ -516,6 +535,7 @@ elif st.session_state.page == "計算機":
     </style>
     """, unsafe_allow_html=True)
 
+    # ⬅️ 返回首頁 按鈕
     if st.button("⬅️ 返回首頁"): go_to("首頁")
 
     st.subheader("🧮 539 雙效能智能計算機")
