@@ -517,15 +517,15 @@ elif st.session_state.page == "計算機":
             .block-container, 
             [data-testid="stMainBlockContainer"], 
             [data-testid="stAppViewBlockContainer"] {
-                max-width: 900px !important; 
+                max-width: 450px !important; 
             }
             
             /* B. 電腦版按鈕加高，縫隙稍微拉開一點更有質感 */
             div[data-testid="stHorizontalBlock"] {
-                gap: 8px !important; 
+                gap: 800px !important; 
             }
             div[data-testid="stHorizontalBlock"] button {
-                height: 500px !important; /* 按鈕變超大好按 */
+                height: 8px !important; /* 按鈕變超大好按 */
                 border-radius: 12px !important; /* 邊角更圓潤一點 */
             }
             
@@ -1257,6 +1257,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
