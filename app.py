@@ -451,10 +451,10 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 終極寬度爆發版：手機不動，電腦版按鈕「橫向增肌」
+    # 💡 終極版：手機完美 + 電腦版「超級結算」按鈕
     st.markdown("""
     <style>
-        /* 📱 手機版：維持完美現狀 (不動) */
+        /* 📱 手機版：維持現狀 (老樣子，不動它) */
         div[data-testid="stHorizontalBlock"] {
             display: grid !important;
             grid-template-columns: repeat(4, 1fr) !important;
@@ -465,44 +465,52 @@ elif st.session_state.page == "計算機":
             grid-column: span 2 !important;
         }
         div[data-testid="column"] { width: 100% !important; min-width: 0px !important; padding: 0 !important; }
-        div[data-testid="stHorizontalBlock"] button { width: 100% !important; height: 60px !important; }
+        div[data-testid="stHorizontalBlock"] button { width: 100% !important; height: 60px !important; border-radius: 8px !important; }
         div[data-testid="stHorizontalBlock"] button p { font-size: 20px !important; font-weight: 900 !important; }
 
-        /* 💻 電腦版：解決「瘦長按鈕」的終極方案 */
+        /* 💻 電腦版：結算按鈕霸權化 */
         @media (min-width: 768px) {
-            /* 1. 擴張主容器，給按鈕生長的空間 */
             .block-container, [data-testid="stMainBlockContainer"] {
                 max-width: 1200px !important; 
             }
             
-            /* 2. 🔥 核心：強迫每一格(Column)把左右寬度「撐滿」 */
             div[data-testid="column"] {
-                padding: 0 1px !important; /* 間距縮到最小，只有 1px 縫隙 */
-                flex: 1 1 auto !important;
+                padding: 0 1px !important;
             }
 
-            /* 3. 🔥 關鍵：讓按鈕寬度直接「暴力橫向擴張」 */
+            /* 通用按鈕設定 */
             div[data-testid="stHorizontalBlock"] button {
-                height: 90px !important;     /* 高度適中 */
-                width: 100% !important;      /* 寬度填滿 */
-                min-width: 200px !important; /* 👈 強制設定最小寬度！按鈕絕對會變寬，字就不會被壓縮！ */
-                margin: 0 !important;
-                border-radius: 10px !important;
+                height: 90px !important;
+                width: 100% !important;
+                min-width: 200px !important; 
+                border-radius: 12px !important;
+                background-color: #f0f2f6; /* 普通按鈕淺灰色 */
+                color: #31333F;
             }
             
-            /* 4. 字體放大並鎖定 */
+            /* 🎯 關鍵：單獨狙擊「結算」按鈕，讓它放大並變色 */
+            /* 它是最後一排的第 3 個 Column 裡面的按鈕 */
+            div[data-testid="stHorizontalBlock"]:last-of-type div[data-testid="column"]:nth-child(3) button {
+                height: 110px !important;      /* 👈 比別的按鈕更高、更厚實 */
+                background-color: #FF8C00 !important; /* 👈 霸氣橘色，一眼就看到 */
+                color: white !important;       /* 白字更清晰 */
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important; /* 加點陰影增加立體感 */
+            }
+
             div[data-testid="stHorizontalBlock"] button p {
                 font-size: 32px !important; 
-                width: 100% !important;
-                text-align: center !important;
+                font-weight: 900 !important;
+            }
+
+            /* 結算按鈕裡面的字要更大 */
+            div[data-testid="stHorizontalBlock"]:last-of-type div[data-testid="column"]:nth-child(3) button p {
+                font-size: 40px !important; 
             }
             
-            /* 5. 液晶螢幕同步橫向擴張 */
             .calc-screen {
-                font-size: 50px !important; 
-                min-height: 100px;
-                line-height: 80px;
-                max-width: 100% !important;
+                font-size: 55px !important; 
+                min-height: 110px;
+                line-height: 90px;
             }
         }
     </style>
@@ -1219,6 +1227,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
