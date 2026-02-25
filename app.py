@@ -454,18 +454,22 @@ elif st.session_state.page == "計算機":
     # 💡 終極贖罪版：改用 CSS Grid (網格排版)，無視 Streamlit 手機版干擾！
     st.markdown("""
     <style>
-        /* 💎 神仙大絕招：把整個網頁框框變窄！ */
-        /* 在電腦上會自動置中且不超過 450px，在手機上會自動維持滿版！ */
-        [data-testid="block-container"] {
-            max-width: 450px !important;
-            padding-top: 2rem !important; /* 把最上面的空白稍微縮小一點 */
+        /* 💻 攔截術：只要是電腦大螢幕 (寬度大於 768px)，就強制把整個網頁主體縮小成 450px 並置中！ */
+        @media (min-width: 768px) {
+            .block-container, 
+            [data-testid="stMainBlockContainer"], 
+            [data-testid="stAppViewBlockContainer"] {
+                max-width: 450px !important;
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
         }
-        
-        /* 1. 維持手機版完美的網格排版 */
+
+        /* 📱 1. 維持手機版完美的網格排版 (絕不動它) */
         div[data-testid="stHorizontalBlock"] {
             display: grid !important;
             grid-template-columns: repeat(4, 1fr) !important;
-            gap: 6px !important; /* 按鈕間的真實縫隙 */
+            gap: 6px !important; 
             width: 100% !important;
         }
         
@@ -484,7 +488,7 @@ elif st.session_state.page == "計算機":
         /* 4. 按鈕自適應 */
         div[data-testid="stHorizontalBlock"] button {
             width: 100% !important;
-            height: 60px !important; /* 按鈕稍微加高一點，手感更好 */
+            height: 60px !important; /* 按鈕稍微加高一點點，看起來更順眼 */
             padding: 0 !important;
             border-radius: 8px !important;
         }
@@ -506,7 +510,7 @@ elif st.session_state.page == "計算機":
             border-radius: 8px;
             text-align: right;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 26px !important;
+            font-size: 28px !important;
             font-weight: 900;
             min-height: 60px;
             margin-bottom: 10px;
@@ -1227,6 +1231,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
