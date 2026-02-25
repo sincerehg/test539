@@ -556,16 +556,44 @@ elif st.session_state.page == "計算機":
 
 elif st.session_state.page == "預測":
     if st.button("⬅️ 返回首頁"): go_to("首頁")
-    
-    st.subheader("🤖 專業大數據預測與趨勢分析")
-    
-    # 💡 直接呼叫你檔案最上方那支「已經會動」的函數！不搞事了！
-    with st.spinner("⏳ 正在為您讀取 50 期專業看盤數據..."):
-        # 你的函數回傳的是 (日期, 號碼) 的列表
+
+    # ==========================================
+    # 🌟 新增：最上方「最新開出獎號」展示與手動更新
+    # ==========================================
+    with st.spinner("⏳ 正在取得最新開獎數據..."):
+        # 💡 先讀取資料，把最新的號碼抓出來
         raw_draws = get_recent_100_draws()
+
+    if raw_draws:
+        latest_date, latest_nums = raw_draws[0] # 抓出最新一期的日期與號碼
         
-        # 把它轉換成預測區需要的格式
-        all_draws = []
+        st.markdown(f"#### 🎰 本期最新開出獎號 ({latest_date})")
+        
+        # 佈局：左邊放球，右邊放更新按鈕 (比例 3:1)
+        c_balls, c_btn = st.columns([3, 1])
+        
+        with c_balls:
+            # 💡 用 CSS 畫出超逼真的圓形獎球 (黃底黑字)
+            balls_html = "".join([f"<div style='display:inline-block; width: 45px; height: 45px; line-height: 45px; text-align: center; border-radius: 50%; background-color: #ffcc00; color: #111; font-weight: 900; font-size: 20px; margin: 0 4px; box-shadow: 2px 2px 5px rgba(0,0,0,0.2);'>{n:02d}</div>" for n in latest_nums])
+            st.markdown(f"<div style='padding-top: 5px;'>{balls_html}</div>", unsafe_allow_html=True)
+            
+        with c_btn:
+            # 推一點空白，讓按鈕乖乖對齊到右下方
+            st.markdown("<div style='height: 5px;'></div>", unsafe_allow_html=True)
+            if st.button("🔄 更新號碼", use_container_width=True):
+                get_recent_100_draws.clear()  # 💡 殺掉 Streamlit 的舊快取
+                st.rerun()                    # 重新整理網頁，強制重新抓取
+
+        st.write("---") # 畫一條分隔線區隔下方預測區
+
+    # ==========================================
+    # 原本的預測區標題與資料轉換
+    # ==========================================
+    st.subheader("🤖 專業大數據預測與趨勢分析")
+
+    # 把它轉換成預測區需要的格式
+    all_draws = []
+    if raw_draws:
         for dt, nums in raw_draws:
             all_draws.append({
                 "date": dt,
@@ -1183,4 +1211,5 @@ elif st.session_state.page == "兌獎":
                 time.sleep(1.5)
                 st.rerun() 
             except Exception as e:
+
                 st.error(f"❌ 雲端存檔失敗：{e}")
