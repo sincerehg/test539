@@ -451,74 +451,76 @@ if st.session_state.page == "首頁":
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
 elif st.session_state.page == "計算機":
-    # 💡 鋼鐵修復版：結算鈕強制橫跨 3+4 格，完美對齊「車」與「2星」
+    # 💡 終極鋼鐵版：解決爆炸問題，結算鈕自動長胖填滿右下角
     st.markdown("""
     <style>
-        /* 📱 手機版：維持你最滿意的現狀 (完全鎖死不動) */
+        /* 1. 🌍 核心排版：不強切 Grid，改用 Flex 讓它自動填滿 */
         div[data-testid="stHorizontalBlock"] {
-            display: grid !important;
-            grid-template-columns: repeat(4, 1fr) !important;
-            gap: 4px !important; 
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            gap: 4px !important; /* 縮小按鈕間距，讓按鈕變寬 */
             width: 100% !important;
+            align-items: stretch !important;
         }
-        /* 手機版：結算鈕也給它橫跨兩格 */
+
+        /* 2. ⚡ 殺掉格子的內留白，這是按鈕變瘦的元兇 */
+        div[data-testid="column"] {
+            padding: 0 !important;
+            min-width: 0 !important;
+            flex-grow: 1 !important; /* 讓格子自動伸展 */
+        }
+
+        /* 3. 🎯 關鍵：讓結算按鈕所在的那個「2倍權重」格子，真的長出兩倍寬度 */
+        /* 這會完美對齊上面的「2星」和「車」，且絕對不留空洞 */
         div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
-            grid-column: span 2 !important;
+            flex-grow: 2 !important;
+            flex-basis: 50% !important;
         }
-        div[data-testid="column"] { width: 100% !important; min-width: 0px !important; padding: 0 !important; }
-        div[data-testid="stHorizontalBlock"] button { width: 100% !important; height: 60px !important; border-radius: 8px !important; }
-        div[data-testid="stHorizontalBlock"] button p { font-size: 20px !important; font-weight: 900 !important; margin: 0 !important; }
 
-        /* 💻 電腦版：解決「變高沒變寬」與「右下角空格」 */
+        /* 4. 按鈕本體設定 */
+        div[data-testid="stHorizontalBlock"] button {
+            width: 100% !important;
+            height: 60px !important;
+            border-radius: 8px !important;
+        }
+
+        /* 5. 💻 電腦版專屬：把按鈕拉得更寬大 */
         @media (min-width: 768px) {
-            /* 1. 電腦版總寬度維持 1200px (你說的大一點很有感) */
-            .block-container, [data-testid="stMainBlockContainer"], [data-testid="stAppViewBlockContainer"] {
-                max-width: 1200px !important; 
+            .block-container {
+                max-width: 1200px !important;
             }
-            
-            /* 2. 核心大絕：間距壓到極小，把寬度還給按鈕 */
-            div[data-testid="stHorizontalBlock"] {
-                gap: 5px !important; 
-            }
-            div[data-testid="column"] {
-                padding: 0 2px !important; /* 殺掉格子的內留白，讓按鈕變胖 */
-            }
-
-            /* 3. 普通按鈕設定 (維持原色、變寬) */
             div[data-testid="stHorizontalBlock"] button {
-                height: 90px !important;
-                width: 100% !important;
-                min-width: 0px !important; /* 解除寬度限制，讓它自然長胖 */
-                border-radius: 10px !important;
+                height: 90px !important; /* 電腦版按鈕加高 */
             }
-            
-            /* 🎯 4. 關鍵狙擊：強迫「結算」所在的格子從第 3 格一路長到第 4 格末尾 */
-            /* 這樣它就會剛好對齊上面的「2星」和「車」，右下角絕對不留白！ */
-            div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
-                grid-column: 3 / 5 !important; /* 👈 填滿最後兩格的絕對指令 */
+            /* 電腦版結算按鈕單獨加高，更有霸氣 */
+            div[data-testid="stHorizontalBlock"]:last-of-type div[data-testid="column"]:last-child button {
+                height: 110px !important;
             }
-            
-            /* 5. 讓結算鈕稍微厚實一點，但維持原色 */
-            div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child button {
-                height: 110px !important; 
-            }
-
             div[data-testid="stHorizontalBlock"] button p {
-                font-size: 36px !important; 
+                font-size: 32px !important;
                 font-weight: 900 !important;
             }
+        }
 
-            .calc-screen {
-                font-size: 55px !important; 
-                min-height: 110px;
-                line-height: 90px;
-                margin-bottom: 15px;
-            }
+        /* 6. 液晶螢幕 */
+        .calc-screen {
+            background-color: #f0f2f6;
+            color: #111111;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: right;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 40px !important;
+            font-weight: 900;
+            min-height: 80px;
+            border: 2px solid #b3b3b3;
+            margin-bottom: 10px;
         }
     </style>
     """, unsafe_allow_html=True)
 
-    # ⬅️ 返回首頁按鈕 (確保這行對齊)
+    # ⬅️ 返回首頁 按鈕
     if st.button("⬅️ 返回首頁"): go_to("首頁")
 
     st.subheader("🧮 539 雙效能智能計算機")
@@ -1230,6 +1232,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
