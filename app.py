@@ -454,54 +454,61 @@ elif st.session_state.page == "計算機":
     # 💡 終極贖罪版：改用 CSS Grid (網格排版)，無視 Streamlit 手機版干擾！
     st.markdown("""
     <style>
-        /* 1. 維持完美的網格排版 (拿掉會打架的置中語法) */
+        /* 💎 神仙大絕招：把整個網頁框框變窄！ */
+        /* 在電腦上會自動置中且不超過 450px，在手機上會自動維持滿版！ */
+        [data-testid="block-container"] {
+            max-width: 450px !important;
+            padding-top: 2rem !important; /* 把最上面的空白稍微縮小一點 */
+        }
+        
+        /* 1. 維持手機版完美的網格排版 */
         div[data-testid="stHorizontalBlock"] {
             display: grid !important;
             grid-template-columns: repeat(4, 1fr) !important;
-            gap: 5px !important; /* 這是我們自訂的完美 5px 間距 */
+            gap: 6px !important; /* 按鈕間的真實縫隙 */
             width: 100% !important;
         }
         
-        /* 2. 讓結算按鈕乖乖佔兩格 */
+        /* 2. 結算按鈕佔兩格 */
         div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
             grid-column: span 2 !important;
         }
         
-        /* 3. 🎯 唯一關鍵：殺掉電腦版的隱形左右護城河！ */
+        /* 3. 殺掉多餘留白 */
         div[data-testid="column"] {
             width: 100% !important;
             min-width: 0px !important;
-            padding: 0 !important; /* 👈 就是這句！把電腦版偷偷加的左右大留白直接歸零！ */
+            padding: 0 !important;
         }
         
-        /* 4. 按鈕自適應填滿網格 */
+        /* 4. 按鈕自適應 */
         div[data-testid="stHorizontalBlock"] button {
             width: 100% !important;
-            height: 55px !important;
+            height: 60px !important; /* 按鈕稍微加高一點，手感更好 */
             padding: 0 !important;
             border-radius: 8px !important;
         }
         
-        /* 5. 強制字體縮小並置中，絕不撐開按鈕 */
+        /* 5. 字體鎖定 */
         div[data-testid="stHorizontalBlock"] button p {
-            font-size: 18px !important;
+            font-size: 20px !important;
             font-weight: 900 !important;
             margin: 0 !important;
             white-space: nowrap !important;
             overflow: hidden !important;
         }
         
-        /* 液晶螢幕 (恢復原本滿版的樣子，不亂搞置中) */
+        /* 6. 液晶螢幕 */
         .calc-screen {
             background-color: #f0f2f6;
             color: #111111;
-            padding: 10px;
+            padding: 10px 15px;
             border-radius: 8px;
             text-align: right;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 24px !important;
+            font-size: 26px !important;
             font-weight: 900;
-            min-height: 55px;
+            min-height: 60px;
             margin-bottom: 10px;
             border: 2px solid #b3b3b3;
         }
@@ -1220,6 +1227,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
