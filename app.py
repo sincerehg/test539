@@ -454,18 +454,10 @@ elif st.session_state.page == "計算機":
     # 💡 終極贖罪版：改用 CSS Grid (網格排版)，無視 Streamlit 手機版干擾！
     st.markdown("""
     <style>
-        /* 💻 攔截術：只要是電腦大螢幕 (寬度大於 768px)，就強制把整個網頁主體縮小成 450px 並置中！ */
-        @media (min-width: 768px) {
-            .block-container, 
-            [data-testid="stMainBlockContainer"], 
-            [data-testid="stAppViewBlockContainer"] {
-                max-width: 450px !important;
-                padding-left: 1rem !important;
-                padding-right: 1rem !important;
-            }
-        }
-
-        /* 📱 1. 維持手機版完美的網格排版 (絕不動它) */
+        /* =========================================
+           📱 手機版基礎設定 (絕對不動它，維持完美現狀)
+           ========================================= */
+        /* 1. 網格排版 */
         div[data-testid="stHorizontalBlock"] {
             display: grid !important;
             grid-template-columns: repeat(4, 1fr) !important;
@@ -485,15 +477,15 @@ elif st.session_state.page == "計算機":
             padding: 0 !important;
         }
         
-        /* 4. 按鈕自適應 */
+        /* 4. 手機版按鈕大小 */
         div[data-testid="stHorizontalBlock"] button {
             width: 100% !important;
-            height: 60px !important; /* 按鈕稍微加高一點點，看起來更順眼 */
+            height: 60px !important; 
             padding: 0 !important;
             border-radius: 8px !important;
         }
         
-        /* 5. 字體鎖定 */
+        /* 5. 手機版字體大小 */
         div[data-testid="stHorizontalBlock"] button p {
             font-size: 20px !important;
             font-weight: 900 !important;
@@ -502,7 +494,7 @@ elif st.session_state.page == "計算機":
             overflow: hidden !important;
         }
         
-        /* 6. 液晶螢幕 */
+        /* 6. 手機版液晶螢幕 */
         .calc-screen {
             background-color: #f0f2f6;
             color: #111111;
@@ -515,6 +507,40 @@ elif st.session_state.page == "計算機":
             min-height: 60px;
             margin-bottom: 10px;
             border: 2px solid #b3b3b3;
+        }
+
+        /* =========================================
+           💻 電腦版專屬放大術 (只在螢幕大於 768px 時觸發，手機絕對不受影響！)
+           ========================================= */
+        @media (min-width: 768px) {
+            /* A. 電腦版整體面板放寬到 600px (原本是 450px) */
+            .block-container, 
+            [data-testid="stMainBlockContainer"], 
+            [data-testid="stAppViewBlockContainer"] {
+                max-width: 600px !important; 
+            }
+            
+            /* B. 電腦版按鈕加高，縫隙稍微拉開一點更有質感 */
+            div[data-testid="stHorizontalBlock"] {
+                gap: 10px !important; 
+            }
+            div[data-testid="stHorizontalBlock"] button {
+                height: 80px !important; /* 按鈕變超大好按 */
+                border-radius: 12px !important; /* 邊角更圓潤一點 */
+            }
+            
+            /* C. 電腦版按鈕字體放大 */
+            div[data-testid="stHorizontalBlock"] button p {
+                font-size: 30px !important; /* 字體霸氣升級 */
+            }
+            
+            /* D. 電腦版液晶螢幕同步放大 */
+            .calc-screen {
+                font-size: 40px !important; /* 螢幕數字變超大 */
+                min-height: 80px;
+                padding: 15px 20px;
+                margin-bottom: 15px;
+            }
         }
     </style>
     """, unsafe_allow_html=True)
@@ -1231,6 +1257,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
