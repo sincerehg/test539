@@ -450,21 +450,21 @@ if st.session_state.page == "首頁":
 # ==========================================
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
-elif st.session_state.page == "計算機":
-    # 💡 終極贖罪版：改用 CSS Grid (網格排版)，無視 Streamlit 手機版干擾！
-    st.markdown("""
+st.markdown("""
     <style>
-        /* 1. 捨棄 flex，把所有橫排變成「網格」，強制切成 4 等分 */
+        /* 1. 聽大哥的：捨棄 flex，把所有橫排變成「網格」，強制切成 4 等分 */
         div[data-testid="stHorizontalBlock"] {
             display: grid !important;
-            grid-template-columns: repeat(4, 1fr) !important; /* 絕對切割成 4 等份 */
+            grid-template-columns: repeat(4, 1fr) !important; /* 全局絕對切割成 4 等份 */
             gap: 5px !important;
             width: 100% !important;
         }
         
-        /* 2. 針對最後一排 (3星, 4星, 結算)，改成 1:1:2 的比例 */
-        div[data-testid="stHorizontalBlock"]:last-of-type {
-            grid-template-columns: 1fr 1fr 2fr !important;
+        /* 2. 🎯 老弟修復「9」暴走的精準魔法！ */
+        /* 讓系統自己去算：如果這一排剛好只有 3 個按鈕，就把第 3 個按鈕（結算）向右拉長，霸佔兩格！ */
+        /* 第一排有 4 個按鈕，所以「9」絕對不會被拉長！ */
+        div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(3):last-child {
+            grid-column: span 2 !important;
         }
         
         /* 3. 解除 Streamlit 手機版的 100% 寬度詛咒 */
@@ -1219,6 +1219,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
