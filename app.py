@@ -450,7 +450,9 @@ if st.session_state.page == "首頁":
 # ==========================================
 # 🧮 獨立計算機頁面區塊 (RWD 適配版結構)
 # ==========================================
-st.markdown("""
+elif st.session_state.page == "計算機":
+    # 💡 終極贖罪版：改用 CSS Grid (網格排版)，無視 Streamlit 手機版干擾！
+    st.markdown("""
     <style>
         /* 1. 聽大哥的：捨棄 flex，把所有橫排變成「網格」，強制切成 4 等分 */
         div[data-testid="stHorizontalBlock"] {
@@ -508,7 +510,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
     # ⬅️ 返回首頁 按鈕
-if st.button("⬅️ 返回首頁"): go_to("首頁")
+    if st.button("⬅️ 返回首頁"): go_to("首頁")
 
     st.subheader("🧮 539 雙效能智能計算機")
 
@@ -1219,6 +1221,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
