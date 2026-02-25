@@ -11,7 +11,7 @@ import json  # 👈 用來處理詳細的下注資料
 # ==========================================
 # 🗄️ 資料庫初始化與工具函式
 # ==========================================
-
+st.set_page_config(layout="wide")
 
 def calculate_combinations(n, k):
     if n < k: return 0
@@ -1219,6 +1219,7 @@ elif st.session_state.page == "兌獎":
             except Exception as e:
 
                 st.error(f"❌ 雲端存檔失敗：{e}")
+
 
 
 
